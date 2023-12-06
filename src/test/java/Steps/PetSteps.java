@@ -89,4 +89,17 @@ public class PetSteps extends BaseTest {
         response.then().assertThat().body("status", equalTo(petTest.getStatus().getValue()));
 
     }
+
+    @When("a user delete the pet")
+    public void aUserDeleteThePet() {
+        response = given()
+                .header("Content-Type", "application/json")
+                .when()
+                .delete("https://petstore.swagger.io/v2/pet/" + petTest.getId());
+    }
+
+    @And("the response contains (\\d+) deleted")
+    public void theResponseContainsDeleted(Integer id) {
+        response.then().assertThat().body("message", equalTo(id.toString()));
+    }
 }

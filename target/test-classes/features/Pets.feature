@@ -28,3 +28,13 @@ Feature: Pets
     Examples:
       | id  | category | name       | statusCode | second_name       | status    |
       | 056 | "Dog"    | "Firulais" | 200        | "Firulais Second" | "pending" |
+
+  Scenario Outline: Delete a pet by Id
+    Given a Pet exists with <id> category <category> and name <name>
+    When a user delete the pet
+    Then the status code should be <statusCode>
+    And the response contains <id> deleted
+
+    Examples:
+      | id  | category | name       | statusCode |
+      | 056 | "Dog"    | "Firulais" | 200        |
