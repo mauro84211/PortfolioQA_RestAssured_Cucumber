@@ -9,4 +9,4 @@ import cucumber.api.junit.Cucumber;
         plugin = {"pretty"},
         glue = {"Steps" },
         features = {"src/test/resources/features"})
-public class CucumberTests {}
+public class RunnerCucumberTests {}

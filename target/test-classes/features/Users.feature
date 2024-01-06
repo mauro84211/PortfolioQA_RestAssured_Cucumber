@@ -19,10 +19,10 @@ Feature: Users
      | 200        | "ok"    |
 
   Scenario Outline: Get user details by username
-    Given a user exists with an <username>
-    When a user retrieves the user details by <username>
+    Given a user exists
+    When a user retrieves the user details by username
     Then the status code is <statusCode>
     And the response includes correct user data
     Examples:
-      | username    | statusCode |
-      | "Maurice89" | 200        |
+      | statusCode |
+      | 200        |

@@ -14,9 +14,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 public class UsersSteps extends BaseTest {
 
     @Before
-    public void updateUser(){
-        userTest= new User(
-                8425,
+    public void initializeUser() {
+        userTest = new User(
+                //8425,
+                faker.random().nextInt(0, 1000),
                 faker.name().username(),
                 faker.name().firstName(),
                 faker.name().lastName(),
@@ -44,7 +45,6 @@ public class UsersSteps extends BaseTest {
     }
 
 
-
     @And("^the response includes correct type$")
     public void theResponseIncludesCorrectType() {
         response.then().assertThat().body("type", equalTo("unknown"));
@@ -53,8 +53,6 @@ public class UsersSteps extends BaseTest {
     @Given("^a user provide users information$")
     public void aUserProvideUsersInformation() {
         String requestBody = new Gson().toJson(createUserList());
-        System.out.println(requestBody);
-
         request = given()
                 .header("Content-Type", "application/json")
                 .body(requestBody);
@@ -70,22 +68,20 @@ public class UsersSteps extends BaseTest {
         response.then().assertThat().body("message", equalTo(message));
     }
 
-    @Given("^a user exists with an \"([^\"]*)\"$")
-    public void aUserExistsWithAnUsername(String username) {
-        userTest.setUsername(username);
+    @Given("^a user exists$")
+    public void aUserExistsWithAnUsername() {
         String requestBody = new Gson().toJson(userTest);
         response = given()
                 .header("Content-Type", "application/json")
                 .body(requestBody)
                 .when().post("https://petstore.swagger.io/v2/user");
         response.then().assertThat().statusCode(200);
-
     }
 
-    @When("^a user retrieves the user details by \"([^\"]*)\"$")
-    public void aUserRetrievesTheUserDetailsByUsername(String username) {
+    @When("^a user retrieves the user details by username$")
+    public void aUserRetrievesTheUserDetailsByUsername() {
         request = given().header("Content-Type", "application/json");
-        response = request.when().get("https://petstore.swagger.io/v2/user/" + username);
+        response = request.when().get("https://petstore.swagger.io/v2/user/" + userTest.getUsername());
     }
 
     @And("^the response includes correct user data$")
